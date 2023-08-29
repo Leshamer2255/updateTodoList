@@ -2,8 +2,9 @@ import React, { ChangeEvent} from "react"
 import { FilterValuesType } from "./App"
 import AddItemForm from "./AddItemForm"
 import {EditableSpan} from "./EditableSpan"
-import { Button } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+import Checkbox from "@mui/material/Checkbox/Checkbox";
 
 
 export type TaskType = {
@@ -44,7 +45,9 @@ export function Todolist(props: PropsType) {
   return (
     <div>
       <h2> <EditableSpan title={props.title} onChange={changeTodolistTitle}/> 
-      <DeleteIcon onClick={removeTodolist}></DeleteIcon></h2>
+      <IconButton onClick={removeTodolist}>
+        <DeleteIcon />
+        </IconButton></h2>
       <AddItemForm  addItem={addTask} />
       <ul>
         {
@@ -57,12 +60,11 @@ export function Todolist(props: PropsType) {
               props.changeTaskTitle(t.id, newValue, props.id);
             }
             return <li key={t.id} className={t.isDone ? "is-done" : ""}>
-              <input
-                type='checkbox'
+              <Checkbox
                 onChange={onChangeHandler}
                 checked={t.isDone} />
               <EditableSpan title={t.title} onChange={onChangeTitleHandler} />
-              <DeleteIcon onClick={onClickHandler}>X</DeleteIcon>
+              <IconButton onClick={onClickHandler}><DeleteIcon /></IconButton>
             </li>
           })
         }
@@ -70,7 +72,7 @@ export function Todolist(props: PropsType) {
       <div>
         <Button variant={props.filter === 'all' ? "contained" : "text"} onClick={onAllClickHandler}>ALL</Button>
         <Button color="success" variant={props.filter === 'active' ? "contained" : "text"} onClick={onActiveClickHandler}>Active</Button>
-        <Button color="secondary"  variant={props.filter === 'completed' ? "contained" : "text"} onClick={onCompletedClickHandler}>Completed</Button>
+        <Button color="error" variant={props.filter === 'completed' ? "contained" : "text"} onClick={onCompletedClickHandler}>Completed</Button>
       </div>
     </div>
   )
